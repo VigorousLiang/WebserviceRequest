@@ -14,7 +14,17 @@ import io.reactivex.schedulers.Schedulers;
 
 import com.vigorous.network.api.WebServiceRequestService;
 import com.vigorous.network.data.webservice.request.Soap12RequestEnvelope;
+import com.vigorous.network.data.webservice.request.callcrashlog.CallCrashLogRequestBody;
+import com.vigorous.network.data.webservice.request.calldbweb.CallDBWebRequestBody;
+import com.vigorous.network.data.webservice.request.callscan.CallScanRequestBody;
+import com.vigorous.network.data.webservice.request.callwebservice.CallWebServiceRequestBody;
+import com.vigorous.network.data.webservice.request.likequery.CallLikeQueryRequestBody;
 import com.vigorous.network.data.webservice.request.login.LoginRequestBody;
+import com.vigorous.network.data.webservice.response.callcrashlog.CallCrashLogRespEnvelope;
+import com.vigorous.network.data.webservice.response.calldbweb.CallDBWebRespEnvelope;
+import com.vigorous.network.data.webservice.response.callscan.CallScanRespEnvelope;
+import com.vigorous.network.data.webservice.response.callwebservice.CallWebServiceRespEnvelope;
+import com.vigorous.network.data.webservice.response.likequery.CallLikeQueryRespEnvelope;
 import com.vigorous.network.data.webservice.response.login.LoginRespEnvelope;
 import com.vigorous.network.exception.AsyncHttpManagerNotInitException;
 import com.vigorous.network.listener.RequestListener;
@@ -81,6 +91,155 @@ public class AsyncNetWorkAPIFactory {
             AsyncWSSubscriberCreater<LoginRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
             Observable<LoginRespEnvelope> observable = requestServiceSoftReference
                     .get().login(param);
+            disposables.add(observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(asyncSubscriberCreater
+                            .create(callBack, requestID)));
+            if (type == REQUEST_TYPE_CANCEL_WITH_ACTIVITY) {
+                mCancelableRequestQueue.add(disposables);
+            }
+        }
+    }
+
+
+    /**
+     * 请求call webservice
+     * @param context
+     * @param requestID
+     * @param type
+     * @param param
+     * @param callBack
+     */
+    public void sendWSPostMessageForCallWebService(Context context, int requestID,
+                                           int type, Soap12RequestEnvelope<CallWebServiceRequestBody>
+                                                   param,RequestListener<CallWebServiceRespEnvelope> callBack) {
+        if (null==requestServiceSoftReference.get() ) {
+            getWebServiceAPI(context);
+        }
+        if (param != null) {
+            CompositeDisposable disposables = new CompositeDisposable();
+            AsyncWSSubscriberCreater<CallWebServiceRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
+            Observable<CallWebServiceRespEnvelope> observable = requestServiceSoftReference
+                    .get().callWebService(param);
+            disposables.add(observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(asyncSubscriberCreater
+                            .create(callBack, requestID)));
+            if (type == REQUEST_TYPE_CANCEL_WITH_ACTIVITY) {
+                mCancelableRequestQueue.add(disposables);
+            }
+        }
+    }
+
+
+    /**
+     * 请求call scan
+     * @param context
+     * @param requestID
+     * @param type
+     * @param param
+     * @param callBack
+     */
+    public void sendWSPostMessageForCallScan(Context context, int requestID,
+                                                   int type, Soap12RequestEnvelope<CallScanRequestBody>
+                                                           param,RequestListener<CallScanRespEnvelope> callBack) {
+        if (null==requestServiceSoftReference.get() ) {
+            getWebServiceAPI(context);
+        }
+        if (param != null) {
+            CompositeDisposable disposables = new CompositeDisposable();
+            AsyncWSSubscriberCreater<CallScanRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
+            Observable<CallScanRespEnvelope> observable = requestServiceSoftReference
+                    .get().callScan(param);
+            disposables.add(observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(asyncSubscriberCreater
+                            .create(callBack, requestID)));
+            if (type == REQUEST_TYPE_CANCEL_WITH_ACTIVITY) {
+                mCancelableRequestQueue.add(disposables);
+            }
+        }
+    }
+
+
+    /**
+     * 请求CallLikeQuery
+     * @param context
+     * @param requestID
+     * @param type
+     * @param param
+     * @param callBack
+     */
+    public void sendWSPostMessageForCallLikeQuery(Context context, int requestID,
+                                             int type, Soap12RequestEnvelope<CallLikeQueryRequestBody>
+                                                     param,RequestListener<CallLikeQueryRespEnvelope> callBack) {
+        if (null==requestServiceSoftReference.get() ) {
+            getWebServiceAPI(context);
+        }
+        if (param != null) {
+            CompositeDisposable disposables = new CompositeDisposable();
+            AsyncWSSubscriberCreater<CallLikeQueryRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
+            Observable<CallLikeQueryRespEnvelope> observable = requestServiceSoftReference
+                    .get().callLikeQuery(param);
+            disposables.add(observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(asyncSubscriberCreater
+                            .create(callBack, requestID)));
+            if (type == REQUEST_TYPE_CANCEL_WITH_ACTIVITY) {
+                mCancelableRequestQueue.add(disposables);
+            }
+        }
+    }
+
+    /**
+     * 请求CallLikeQuery
+     * @param context
+     * @param requestID
+     * @param type
+     * @param param
+     * @param callBack
+     */
+    public void sendWSPostMessageForCallDBWeb(Context context, int requestID,
+                                                  int type, Soap12RequestEnvelope<CallDBWebRequestBody>
+                                                          param,RequestListener<CallDBWebRespEnvelope> callBack) {
+        if (null==requestServiceSoftReference.get() ) {
+            getWebServiceAPI(context);
+        }
+        if (param != null) {
+            CompositeDisposable disposables = new CompositeDisposable();
+            AsyncWSSubscriberCreater<CallDBWebRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
+            Observable<CallDBWebRespEnvelope> observable = requestServiceSoftReference
+                    .get().callDBWeb(param);
+            disposables.add(observable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(asyncSubscriberCreater
+                            .create(callBack, requestID)));
+            if (type == REQUEST_TYPE_CANCEL_WITH_ACTIVITY) {
+                mCancelableRequestQueue.add(disposables);
+            }
+        }
+    }
+
+
+    /**
+     * CallCrashLog
+     * @param context
+     * @param requestID
+     * @param type
+     * @param param
+     * @param callBack
+     */
+    public void sendWSPostMessageForCallCrashLog(Context context, int requestID,
+                                              int type, Soap12RequestEnvelope<CallCrashLogRequestBody>
+                                                      param,RequestListener<CallCrashLogRespEnvelope> callBack) {
+        if (null==requestServiceSoftReference.get() ) {
+            getWebServiceAPI(context);
+        }
+        if (param != null) {
+            CompositeDisposable disposables = new CompositeDisposable();
+            AsyncWSSubscriberCreater<CallCrashLogRespEnvelope> asyncSubscriberCreater = new AsyncWSSubscriberCreater<>();
+            Observable<CallCrashLogRespEnvelope> observable = requestServiceSoftReference
+                    .get().callCrashLog(param);
             disposables.add(observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(asyncSubscriberCreater

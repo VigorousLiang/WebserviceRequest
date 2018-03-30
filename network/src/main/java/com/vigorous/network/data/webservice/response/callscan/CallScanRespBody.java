@@ -1,4 +1,4 @@
-package com.vigorous.network.data.webservice.response.login;
+package com.vigorous.network.data.webservice.response.callscan;
 
 
 
@@ -11,20 +11,20 @@ import org.simpleframework.xml.Root;
  */
 //坑，这里只能是Body,不能使soap:Body,不然解析不出来
 @Root(name = "Body", strict = false)
-public class LoginRespBody {
+public class CallScanRespBody {
 
     @Element(name = "CallScanResponse", required = false)
-    private LoginResponse body;
+    private CallScanResponse body;
 
-    public LoginResponse getBody() {
+    public CallScanResponse getBody() {
         return body;
     }
 
-    public void setBody(LoginResponse body) {
+    public void setBody(CallScanResponse body) {
         this.body = body;
     }
 
-    public LoginRespBody(){
+    public CallScanRespBody(){
 
     }
 }

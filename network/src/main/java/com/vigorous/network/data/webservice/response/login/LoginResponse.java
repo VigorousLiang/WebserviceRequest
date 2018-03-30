@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root;
  * Created on 2018/3/28
  */
 
-@Root(name = "LoginResponse", strict = false)
+@Root(name = "CallScanResponse", strict = false)
 @Namespace(reference = "http://www.gtja.com.cn/")
 public class LoginResponse {
 
